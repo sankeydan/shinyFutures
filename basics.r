@@ -108,9 +108,9 @@ shinyApp(ui, server)
 
 
 
-####### 2. What's wrong with the following apps? Can you debug them for me?
+####### 3. What's wrong with the following apps? Can you debug them for me?
 
-#4.1 
+#3.1 
 rm(list=ls())
 ui <- fluidPage(
   textInput("words", "Enter words here"),
@@ -134,7 +134,7 @@ shinyApp(ui, server)
 #USE THE STOP FUNCTION NOW
 #####
 
-# 4.2
+# 3.2
 rm(list=ls())
 ui <- fluidPage(
   inputDate(inputID = "dob", "When were you born?"),
@@ -157,7 +157,7 @@ shinyApp(ui, server)
 #USE THE STOP FUNCTION NOW
 #####
 
-# 4.3
+# 3.3
 animals <- c("dog", "cat", "mouse", "bird", "other", "I hate animals")
 ui <- fluidPage(
   sidebarLayout(
