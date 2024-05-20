@@ -139,8 +139,8 @@ shinyApp(ui, server)
 # 3.2
 rm(list=ls())
 ui <- fluidPage(
-  inputDate(inputID = "dob", "When were you born?"),
-  dateRangeInput( inputID="holiday", "When do you next want to go on holiday?"),
+  inputDate(inputId = "dob", "When were you born?"),
+  dateRangeInput( inputId="holiday", "When do you next want to go on holiday?"),
   textOutput("text")
 )
 server <- function(input, output, session) {
@@ -173,7 +173,7 @@ ui <- fluidPage(
                    choiceValues = list( "happy", "angry", "sad")
       ),
   textInput(inputId = "name", "What's your name?"),
-  passwordInput(inputID="password", "What's your password?"),
+  passwordInput(inputId="password", "What's your password?"),
   textAreaInput("story", "Tell me about yourself", rows = 3),
   numericInput("num", "Number one", value = 0, min = 0, max = 100),
   sliderInput("num2", "Number two", value = 50, min = 0, max = 100),
