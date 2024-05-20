@@ -21,6 +21,8 @@
 
 ####### 1. Building basic UI and server
 
+library( shiny)
+
 ui <- fluidPage(
   
   # Sidebar with a slider input for number of bins
