@@ -19,44 +19,7 @@
 # IMPORTANT NOTE. IF YOU RUN THESE LINES, YOU WILL NEED TO USE THE STOP FUNCTION
 # (RED CIRCLE AT TOP RIGHT OF CONSOLE) TO RESUME WORKING
 
-library(shiny)
-ui <- fluidPage(
- "Hello, world!"
-)
-server <- function(input, output, session) {
-
-}
-shinyApp(ui, server)
-
-
-#####
-#USE THE STOP FUNCTION NOW
-#####
-
-####### 2. Building up the input (UI)
-
-ui <- fluidPage(
-  
-  # Sidebar with a slider input for number of bins
-  sliderInput(inputId = "bins",
-              label = "Number of bins:",
-              min = 1,
-              max = 50,
-              value = 30),
-  
-  # Show a plot of the generated distribution
-  plotOutput("my_histogram")
-)
-
-shinyApp(ui, server)
-
-# Oh wait, it's just input with no behaviour,
-
-#####
-#USE THE STOP FUNCTION NOW
-#####
-
-####### 3. Building UI and server
+####### 1. Building basic UI and server
 
 ui <- fluidPage(
   
@@ -92,9 +55,60 @@ shinyApp(ui, server)
 #USE THE STOP FUNCTION NOW
 #####
 
+# 2. now let's add to this app
+
+ui <- fluidPage(
+  
+  # Sidebar with a slider input for number of bins
+  sliderInput("bins",               # notice I didn't put "inputID =" this time
+              "Number of bins:",    # notice I didn't put "label =" this time; doing this way (without the =) for the first two arguments is recommended by Hadley Wickham
+              min = 1,
+              max = 50,
+              value = 30),
+  
+  # Text input to comment on the histograms
+  textInput("te1", "Comment on the first histogram"),
+  textInput("te2", "Comment on the second histogram"),
+  
+  # Show a plot of the generated distribution
+  plotOutput("my_histogram"),
+  textOutput("text1"),
+  plotOutput("histogram2"),
+  textOutput("text2")
+)
+
+server <- function(input, output) {
+  
+  #### PLOT 1.
+  output$my_histogram <- renderPlot({
+    x    <- faithful$waiting
+    my_bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    hist(x, breaks = my_bins, col = 'darkgray', border = 'white',main = "Time between eruptions")
+  })
+  
+  #### PLOT 2.
+  output$histogram2 <- renderPlot({
+    x    <- faithful$eruptions
+    my_bins <- seq(min(x), max(x), length.out = input$bins + 1)
+    hist(x, breaks = my_bins, col = 'darkgray', border = 'white',main = "Eruption duration")
+  })
+  
+  #### TEXT 1.
+  output$text1 <- renderText ( {
+   input$te1
+  })
+  
+  #### TEXT 2.
+  output$text2 <- renderText ( {
+    input$te2
+  })
+}
+
+shinyApp(ui, server)
 
 
-####### 4. What's wrong with the following apps? Can you debug them for me?
+
+####### 2. What's wrong with the following apps? Can you debug them for me?
 
 #4.1 
 rm(list=ls())
@@ -123,8 +137,8 @@ shinyApp(ui, server)
 # 4.2
 rm(list=ls())
 ui <- fluidPage(
-  inputDate("dob", "When were you born?"),
-  dateRangeInput("holiday", "When do you next want to go on holiday?"),
+  inputDate(inputID = "dob", "When were you born?"),
+  dateRangeInput( inputID="holiday", "When do you next want to go on holiday?"),
   textOutput("text")
 )
 server <- function(input, output, session) {
@@ -148,7 +162,7 @@ animals <- c("dog", "cat", "mouse", "bird", "other", "I hate animals")
 ui <- fluidPage(
   sidebarLayout(
     sidebarPanel (
-      radioButtons("rb", "Choose one:",
+      radioButtons(inputId = "rb", "Choose one:",
                    choiceNames = list(
                      icon("smile"),
                      icon("angry"),
@@ -156,8 +170,8 @@ ui <- fluidPage(
                    ),
                    choiceValues = list( "happy", "angry", "sad")
       ),
-  textInput("name", "What's your name?"),
-  passwordInput("password", "What's your password?"),
+  textInput(inputId = "name", "What's your name?"),
+  passwordInput(inputID="password", "What's your password?"),
   textAreaInput("story", "Tell me about yourself", rows = 3),
   numericInput("num", "Number one", value = 0, min = 0, max = 100),
   sliderInput("num2", "Number two", value = 50, min = 0, max = 100),
